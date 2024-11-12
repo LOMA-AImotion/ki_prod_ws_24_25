@@ -12,8 +12,12 @@ stundensatz = [| 10, 20, 30 |
 % Jeder Worker kann nur eine Aufgabe machen
 array[Tasks] of var Workers: task_to_worker;    
 
-constraint forall(t1 in Tasks, t2 in Tasks where t1 != t2) (
-   task_to_worker[t1] != task_to_worker[t2]
-);
-                      
+%constraint forall(t1 in Tasks, t2 in Tasks where t1 != t2) (
+%   task_to_worker[t1] != task_to_worker[t2]
+%);
+include "globals.mzn";
+include "alldifferent.mzn";
+
+constraint alldifferent(task_to_worker);
+                                            
 solve minimize sum(t in Tasks) ( stundensatz[task_to_worker[t], t] );
